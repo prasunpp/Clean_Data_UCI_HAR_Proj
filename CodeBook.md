@@ -1,30 +1,31 @@
----
-title: "CodeBook"
-output: github_document
----
+# CodeBook - Peer-graded Assignment: Getting and Cleaning Data Course Project
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## GitHub Documents
+This code book describes the variables, the data, and any transformations that were performed to clean up the data  
+ - The training, test, feature, and activity data was read into individual data frames over which transformations could be run on
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+```
+X_test <- read.table("./UCI_HAR_Dataset/test/X_test.txt")
+y_test <- read.table("./UCI_HAR_Dataset/test/y_test.txt")
+subject_test <- read.table("./UCI_HAR_Dataset/test/subject_test.txt")
 
-## Including Code
+X_train <- read.table("./UCI_HAR_Dataset/train/X_train.txt")
+y_train <- read.table("./UCI_HAR_Dataset/train/y_train.txt")
+subject_train <- read.table("./UCI_HAR_Dataset/train/subject_train.txt")
 
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
+# Read in features name and activity names
+feat_names <- read.table("./UCI_HAR_Dataset/features.txt", colClasses = c("NULL",NA))
+act_names <- read.table("./UCI_HAR_Dataset/activity_labels.txt", colClasses = c("NULL",NA))
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+- We then moved the training and testing data in to dataframe tables in order to use the dply package  
 ```
+X_test_tbl_df <- tbl_df(X_test)
+y_test_tbl_df <- tbl_df(y_test)
+subject_test_tbl_df <- tbl_df(subject_test)
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+X_train_tbl_df <- tbl_df(X_train)
+y_train_tbl_df <- tbl_df(y_train)
+subject_train_tbl_df <- tbl_df(subject_train)
+```

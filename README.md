@@ -1,6 +1,6 @@
-# Peer-graded Assignment: Getting and Cleaning Data Course Project
+# README - Peer-graded Assignment: Getting and Cleaning Data Course Project
 
-*** 
+ 
 ## Contents
 - This repo contains the data for the UCI_HAR_Dataset
 - It has one script run_analysis.R that contains the code for the project
