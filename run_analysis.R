@@ -14,7 +14,7 @@
 ##       each subject.
 ## ----------------------------------------------------------------------------
 
-library(dplyr)
+require(dplyr)
 
 ## Read the data into dataframes
 ## The folder containing the data has been renamed to UCI_HAR_Dataset
@@ -85,15 +85,18 @@ for(jj in 1:nrow(y_bind)){
 
 ## Extracts only the measurements on the mean and standard deviation 
 ## for each measurement. 
-name_pattern <- c("mean","std")
-cols_to_keep <- grepl(name_pattern, X_bind)
+unique_col_names <- make.names(names=names(X_bind), unique=TRUE, allow_ = TRUE)
+names(X_bind) <- unique_col_names
+
+X_bind_pruned <- select(X_bind, contains("mean"), contains("std"))
+
 
 ## Column bind to get -a merged dataset
-merged_dataset <- bind_cols(subject_bind, y_bind, X_bind)
+merged_dataset <- bind_cols(subject_bind, y_bind, X_bind_pruned)
 
-## Subset of merged dataset with only mean and std. deviation measurements
-merged_sub_dataset <- 
-
+## data set with the average of each variable for each activity and 
+## each subject.
+final_dataset <-merged_dataset %>% group_by(Subject_ID, Activity) %>% summarise_all(funs(mean))
 
 ## ----------------------------------------------------------------------------
 ## Garbage collection - Save memory
@@ -104,9 +107,9 @@ rm(X_test_tbl_df, y_test_tbl_df, subject_test_tbl_df, X_train_tbl_df,
 ## remove tables to save some memory
 rm(X_test, y_test, subject_test, X_train, y_train, subject_train)
 ## remove the test+table bind df's
-rm(subject_bind,y_bind, X_bind)
+rm(subject_bind,y_bind, X_bind, X_bind_pruned)
 ## remove act and feat names
 rm(act_names, feat_names)
 ## remove other variables
-rm(ii,jj)
+rm(ii,jj,unique_col_names)
 ## ----------------------------------------------------------------------------
